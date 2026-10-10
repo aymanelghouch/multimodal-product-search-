@@ -1,0 +1,21 @@
+# Entorno y caché
+venv/
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Datos (se regeneran con scripts/prepare_dataset.py)
+data/images/
+data/processed/
+data/raw/
+
+# Modelos y vectores pesados
+*.npy
+*.pt
+*.bin
+
+# Secretos y editor
+.env
+.vscode/
+.idea/
