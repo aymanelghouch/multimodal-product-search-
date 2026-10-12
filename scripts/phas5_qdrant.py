@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 from src.similarity import l2_normalize
-from src.embeddings import embed_text
+from src.embeddings import embed_text, embed_images
 
 
 
@@ -76,6 +76,40 @@ def search_qdrant(query, k=5, article_type=None):
 
 for p in search_qdrant("black running shoes", article_type="Sports Shoes"):
     print(f"{p.score:.3f}  {p.payload['articleType']:15s} {p.payload['productDisplayName']}")
+
+
+
+def search_by_vector(vector, k=5, article_type=None):
+    query_filter = None
+    if article_type is not None:
+        query_filter = models.Filter(
+            must=[
+                models.FieldCondition(
+                    key="articleType",
+                    match=models.MatchValue(value=article_type),
+                )
+            ]
+        )
+    res = client.query_points(
+        collection_name=COLLECTION, 
+        query=vector,
+        query_filter=query_filter,
+        limit=k
+        
+    )
+    return res.points
+
+
+
+def search_text(query, k=5, article_type=None):
+    q = l2_normalize(embed_text([query]))[0]
+    return search_by_vector(q)
+
+def search_image(image_path, k=5, article_type=None):
+    
+    return None
+
+
 
 client.close()
 
