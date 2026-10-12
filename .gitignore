@@ -9,6 +9,7 @@ __pycache__/
 data/images/
 data/processed/
 data/raw/
+data/qdrant_db/
 
 # Modelos y vectores pesados
 *.npy
