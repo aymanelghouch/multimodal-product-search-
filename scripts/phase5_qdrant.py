@@ -50,7 +50,6 @@ client.upsert(collection_name=COLLECTION, points=points)
 
 
 
-
 def search_qdrant(query, k=5, article_type=None):
     q = l2_normalize(embed_text([query]))[0]
 
@@ -72,7 +71,6 @@ def search_qdrant(query, k=5, article_type=None):
         limit=k,
     )
     return res.points
-
 
 for p in search_qdrant("black running shoes", article_type="Sports Shoes"):
     print(f"{p.score:.3f}  {p.payload['articleType']:15s} {p.payload['productDisplayName']}")
@@ -103,12 +101,19 @@ def search_by_vector(vector, k=5, article_type=None):
 
 def search_text(query, k=5, article_type=None):
     q = l2_normalize(embed_text([query]))[0]
-    return search_by_vector(q)
+    return search_by_vector(q, k=k, article_type=article_type)
 
 def search_image(image_path, k=5, article_type=None):
     
-    return None
+    q = l2_normalize(embed_images([image_path]))[0]
+    return search_by_vector(q, k=k, article_type=article_type)
 
+    
+ruta = ROOT / df.loc[0, "image_path"]
+print(df.loc[0, "articleType"], "|", df.loc[0, "productDisplayName"])
+
+for p in search_image(ruta, k=6):
+    print(f"{p.score:.3f}  {p.payload['articleType']:15s} {p.payload['productDisplayName']}")
 
 
 client.close()

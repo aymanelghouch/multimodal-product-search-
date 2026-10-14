@@ -33,6 +33,11 @@ Text search works too. For example, `silver wrist watch` returns 5 watches, and 
 - [ ] **Phase 8:** FastAPI service
 - [ ] **Phase 9:** Demo, tests, docs
 
+Tengo pendiente de acabar:
+Pedir k + 1 resultados y descartar el que tenga el mismo id.
+Excluir el id con un filtro must_not (busca algo como HasId en Filtering).
+No hacer nada, porque un usuario real sube una imagen que no está en el catálogo.
+
 ## Project structure
 
 ```
